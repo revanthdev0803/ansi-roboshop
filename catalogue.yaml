@@ -3,10 +3,10 @@
   become: yes
   tasks:
   - name: disbaling default node js
-    ansible.builtin.command:  dnf module disable nodejs -y
+    ansible.builtin.command: dnf module disable nodejs -y
 
   - name: enable nodejs 
-    ansible.builtin.command:  dnf module enable nodejs:20 -y
+    ansible.builtin.command: dnf module enable nodejs:20 -y
 
   - name: install nodejs
     ansible.builtin.dnf:
@@ -71,7 +71,7 @@
 
   - name: load products
     ansible.builtin.shell: mongosh --host  mongodb.chinni.fun < /app/db/master-data.js
-
+    
 
 
 
