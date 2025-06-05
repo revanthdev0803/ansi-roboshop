@@ -55,7 +55,7 @@
   - name: start and enable catalougue
     ansible.builtin.service:
       name: catalogue
-      state: start
+      state: started
       enabled: yes
   
   - name: copy mongodb repo
