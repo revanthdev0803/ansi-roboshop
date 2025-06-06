@@ -27,9 +27,9 @@
 
     - name: Create an empty index.html
       ansible.builtin.file:
-      path: /usr/share/nginx/html/index.html
-      state: touch
-      mode: '0644'
+        path: /usr/share/nginx/html/index.html
+        state: touch
+        mode: '0644'
 
 
     - name: Download a frontend content
