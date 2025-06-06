@@ -22,7 +22,7 @@
 
     - name: Delete default index.html
       ansible.builtin.file:
-        path: /usr/share/nginx/html/*
+        path: /usr/share/nginx/html/
         state: absent
 
     - name: Create an empty index.html
@@ -37,7 +37,18 @@
 
     - name: Extract the archive
       ansible.builtin.unarchive:
-      src: /tmp/frontend.zip
-      dest: /usr/share/nginx/html 
-      remote_src: yes
+        src: /tmp/frontend.zip
+        dest: /usr/share/nginx/html 
+        remote_src: yes
+
+    - name: Delete default nginx.conf
+      ansible.builtin.file:
+        path: /etc/nginx/nginx.conf
+        state: absent
+
+    - name: Copy a file to a remote location
+      ansible.builtin.copy:
+      src: frontend.service
+      dest: /etc/nginx/nginx.conf
+     
       
