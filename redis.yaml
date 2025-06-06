@@ -1,5 +1,5 @@
 - name: install redis component
-  hosts: catalogue
+  hosts: redis
   become: yes
   tasks:
   - name: disbaling default redis
