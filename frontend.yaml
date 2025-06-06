@@ -4,10 +4,10 @@
 
   tasks:
     - name: disabling nginx
-      ansible.builtin.command:  dnf module disable nginx 
+      ansible.builtin.command:  dnf module disable nginx -y
     
     - name: Remove default nginx configuration
-      ansible.builtin.command:  dnf module enable nginx:1.24
+      ansible.builtin.command:  dnf module enable nginx:1.24 -y
 
     - name: installing nginx
       ansible.builtin.dnf:
