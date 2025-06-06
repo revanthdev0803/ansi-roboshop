@@ -50,7 +50,7 @@
 
     - name: Copy a file to a remote location
       ansible.builtin.copy:
-        src: frontend.service
+        src: nginx.conf
         dest: /etc/nginx/nginx.conf
      
       
