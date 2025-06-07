@@ -42,12 +42,12 @@
     - name: Install maven dependies
       ansible.builtin.command:  mvn clean package
       args:
-      chdir: /app
-      
+        chdir: /app
+
     - name: renaming the file
       anisble.builtin.command:  mv target/shipping-1.0.jar shipping.jar 
       args:
-      chdir: /app
+        chdir: /app
 
     - name: just for reload
       ansible.builtin.systemd_service:
