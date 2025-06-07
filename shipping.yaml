@@ -52,8 +52,8 @@
 
     - name: copy the shipping service
       ansible.builtin.copy:
-        src: catalogue.service
-        dest: /etc/systemd/system/catalogue.service
+        src: shipping.service
+        dest: /etc/systemd/system/shipping.service
 
     - name: just for reload
       ansible.builtin.systemd_service:
@@ -91,5 +91,5 @@
 
     - name: Restart shipping service after schema load
       ansible.builtin.service:
-        name: shipping.service
+        name: shipping
         state: restarted
