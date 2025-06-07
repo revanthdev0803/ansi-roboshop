@@ -43,6 +43,7 @@
       ansible.builtin.command:  mvn clean package
       args:
       chdir: /app
+      
     - name: renaming the file
       anisble.builtin.command:  mv target/shipping-1.0.jar shipping.jar 
       args:
