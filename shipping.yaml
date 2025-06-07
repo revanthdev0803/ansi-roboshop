@@ -3,15 +3,15 @@
   become: yes
 
   vars:
-    mysql_host: "mysql.chinni.fun"    # Replace this
+    mysql_host: "mysql.chinni.fun"    
     mysql_root_password: "RoboShop@1"
 
 
   tasks:
     - name: installing maven to the system
       ansible.builtin.dnf:  
-      name: maven
-      state:  installed
+        name: maven
+        state:  installed
 
   
     - name: create roboshop bultin user
@@ -81,7 +81,7 @@
         mysql -h {{ mysql_host }} -uroot -p{{ mysql_root_password }} < /app/db/master-data.sql
       args:
         executable: /bin/bash
-        
+
     - name: Restart shipping service after schema load
       ansible.builtin.service:
         name: shipping
