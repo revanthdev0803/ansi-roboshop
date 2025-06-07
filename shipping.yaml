@@ -91,5 +91,5 @@
 
     - name: Restart shipping service after schema load
       ansible.builtin.service:
-        name: shipping
+        name: shipping.service
         state: restarted
