@@ -89,7 +89,8 @@
       args:
         executable: /bin/bash
 
-    - name: Restart shipping service after schema load
-      ansible.builtin.service:
+    - name: Restart shipping service
+      ansible.builtin.systemd:
         name: shipping
         state: restarted
+        enabled: yes
