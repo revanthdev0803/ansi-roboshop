@@ -3,6 +3,6 @@
   become:  yes
   tasks:  
     - name: installing python module
-      ansible.builtin.dnf: dnf install python -y
+      ansible.builtin.command: dnf install python -y
 
-      
+
