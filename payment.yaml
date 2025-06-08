@@ -1,0 +1,8 @@
+- name: configuring the payment module
+  hosts:  payment
+  become:  yes
+  tasks:  
+    - name: installing python module
+      ansible.builtin.dnf: dnf install python -y
+
+      
