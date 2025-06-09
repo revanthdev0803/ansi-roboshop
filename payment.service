@@ -1,0 +1,21 @@
+[Unit]
+Description=Payment Service
+
+[Service]
+User=root
+WorkingDirectory=/app
+// highlight-start
+Environment=CART_HOST=cart.chinni.fun
+Environment=CART_PORT=8080
+Environment=USER_HOST=user.chinni.fun
+Environment=AMQP_HOST=<RABBITMQ-SERVER-IPADDRESS>
+// highlight-end
+Environment=AMQP_USER=roboshop
+Environment=AMQP_PASS=roboshop123
+
+ExecStart=/usr/local/bin/uwsgi --ini payment.ini
+ExecStop=/bin/kill -9 $MAINPID
+SyslogIdentifier=payment
+
+[Install]
+WantedBy=multi-user.target
