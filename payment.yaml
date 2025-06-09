@@ -46,10 +46,12 @@
         state: present
 
 
-    - name: installing python dependiecs module
-      ansible.builtin.command: pip3 install -r requirements.txt
-      args:
-        chdir:  /app
+    - name: Install Python dependencies
+      ansible.builtin.pip:
+        requirements: /app/requirements.txt
+        virtualenv: /app/venv
+        virtualenv_command: python3 -m venv
+        executable: pip3
 
     - name: copy the payment service
       ansible.builtin.copy:
