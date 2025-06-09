@@ -33,12 +33,12 @@
 
     - name: Install build dependencies for uwsgi
       ansible.builtin.yum:
-      name:
-        - gcc
-        - python3-devel
-        - gcc-c++
-        - make
-      state: present
+        name:
+          - gcc
+          - python3-devel
+          - gcc-c++
+          - make
+        state: present
 
 
     - name: installing python dependiecs module
