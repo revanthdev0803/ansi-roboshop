@@ -2,8 +2,13 @@
   hosts:  payment
   become:  yes
   tasks:  
-    - name: installing python module
-      ansible.builtin.command: dnf install python -y
+    
+    - name: Installing Python3 and pip
+      ansible.builtin.package:
+        name:
+          - python3
+          - python3-pip
+        state: present
 
 
     - name: create roboshop bultin user
