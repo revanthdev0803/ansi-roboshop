@@ -31,6 +31,16 @@
         dest: /app
         remote_src: yes
 
+    - name: Install build dependencies for uwsgi
+      ansible.builtin.yum:
+      name:
+        - gcc
+        - python3-devel
+        - gcc-c++
+        - make
+      state: present
+
+
     - name: installing python dependiecs module
       ansible.builtin.command: pip3 install -r requirements.txt
       args:
