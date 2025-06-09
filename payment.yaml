@@ -32,7 +32,7 @@
         remote_src: yes
 
     - name: installing python dependiecs module
-      ansible.builtin.command: pip3 install -r requirements.txt
+      ansible.builtin.pip: pip3 install -r requirements.txt
       args:
         chdir:  /app
 
