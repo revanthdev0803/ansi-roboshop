@@ -1,9 +1,15 @@
-- name: configuring the payment module
-  hosts:  payment
-  become:  yes
-  tasks:  
-    
-    - name: Installing Python3 and pip
+- name: Configure Payment Service for RoboShop
+  hosts: payment
+  become: yes
+
+  vars:
+    cart_host: "cart.chinni.fun"
+    user_host: "user.chinni.fun"
+    rabbitmq_host: "rabbitmq.chinni.fun"
+
+  tasks:
+
+    - name: Install Python 3 and development tools
       ansible.builtin.package:
         name:
           - python3
@@ -11,52 +17,71 @@
           - python3-devel
         state: present
 
-
-    - name: create roboshop bultin user
+    - name: Create roboshop system user
       ansible.builtin.user:
         name: roboshop
         shell: /sbin/nologin
-        system: true
+        system: yes
         home: /app
+        comment: "roboshop system user"
 
-    - name: create a directory if it is not available
+    - name: Create /app directory
       ansible.builtin.file:
         path: /app
-        state:  directory
+        state: directory
+        owner: roboshop
+        group: roboshop
+        mode: '0755'
 
-    - name: downloadpaymentfile
+    - name: Download payment code zip
       ansible.builtin.get_url:
         url: https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip
         dest: /tmp/payment.zip
 
-#this module thinks file exits on ansible control server,needs to extract on to remote machine
-#remote_src: yes means files already exist in catalogue server
-    - name: extractpaymentcode
+    - name: Extract payment code into /app
       ansible.builtin.unarchive:
         src: /tmp/payment.zip
         dest: /app
         remote_src: yes
+        owner: roboshop
+        group: roboshop
 
-
-
-    - name: installing python dependiecs module
+    - name: Install Python dependencies for payment service
       ansible.builtin.command: pip3 install -r requirements.txt
       args:
-        chdir:  /app
+        chdir: /app
 
-    - name: copy the payment service
+    - name: Create systemd unit file for payment service
       ansible.builtin.copy:
-        src: payment.service
         dest: /etc/systemd/system/payment.service
+        content: |
+          [Unit]
+          Description=Payment Service
 
-    - name: just for reload
+          [Service]
+          User=root
+          WorkingDirectory=/app
+          Environment=CART_HOST={{ cart_host }}
+          Environment=CART_PORT=8080
+          Environment=USER_HOST={{ user_host }}
+          Environment=USER_PORT=8080
+          Environment=AMQP_HOST={{ rabbitmq_host }}
+          Environment=AMQP_USER=roboshop
+          Environment=AMQP_PASS=roboshop123
+          ExecStart=/usr/local/bin/uwsgi --ini payment.ini
+          ExecStop=/bin/kill -9 $MAINPID
+          SyslogIdentifier=payment
+
+          [Install]
+          WantedBy=multi-user.target
+        mode: '0644'
+
+    - name: Reload systemd daemon
       ansible.builtin.systemd_service:
         daemon_reload: true
 
-    - name: start and enable payment
+    - name: Enable and start payment service
       ansible.builtin.service:
         name: payment
         state: started
         enabled: yes
-  
-    
